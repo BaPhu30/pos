@@ -27,7 +27,6 @@ class AdminlteCustomPresenter extends Presenter
      */
     public function getMenuWithoutDropdownWrapper($item)
     {
-        // dd($item);
         return '<li' . $this->getActiveState($item) . '><a href="' . $item->getUrl() . '" ' . $item->getAttributes() . '>' . $item->getIcon() . ' <span>' . $item->title . '</span></a></li>' . PHP_EOL;
     }
 
@@ -36,7 +35,6 @@ class AdminlteCustomPresenter extends Presenter
      */
     public function getActiveState($item, $state = ' class="active"')
     {
-        // dd($item, $state);
         return $item->isActive() ? $state : null;
     }
 

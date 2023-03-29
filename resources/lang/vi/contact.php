@@ -11,7 +11,7 @@ return [
     |
     */
 
-    'contacts' => 'Liên hệ',
+    'contacts' => 'Khách hàng',
     'name' => 'Tên',
     'contact' => 'Contact',
     'manage_your_contact' => 'Quản lý của bạn :contacts',
@@ -39,5 +39,6 @@ return [
     'total_purchase_paid' => 'Tổng thanh toán mua hàng',
     'total_sale_paid' => 'Tổng thanh toán bán hàng',
     'total_sale_due' => 'Chưa thanh toán',
-    'customer' => 'Khách hàng',
+    'customer' => 'Danh sách khách hàng',
+    'add_customer' => 'Thêm khách hàng',
 ];

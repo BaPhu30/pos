@@ -68,8 +68,6 @@ class BuySellController extends Controller
         $business_id = request()->session()->get('user.business_id');
 
         if (request()->ajax()) {
-            // dd(request()->supplier_id);
-            // dd(request()->supplier_id, request()->location_id, request()->status, request()->input('payment_status'), request()->input('type_status'));
             $purchases = $this->transactionUtil->getListBuySell($business_id);
             $permitted_locations = auth()->user()->permitted_locations();
             if ($permitted_locations != 'all') {
@@ -82,7 +80,7 @@ class BuySellController extends Controller
 
 
             if (!empty(request()->type_status)) {
-                // dd(request()->type_status);
+
                 $purchases->where('transactions.type', request()->type_status);
             }
 
@@ -114,7 +112,6 @@ class BuySellController extends Controller
             if (!auth()->user()->can('buysell.view') && auth()->user()->can('view_own_purchase')) {
                 $purchases->where('transactions.created_by', request()->session()->get('user.id'));
             }
-            // dd($purchases);
 
             return Datatables::of($purchases)
                 ->addColumn('action', function ($row) {
@@ -283,7 +280,6 @@ class BuySellController extends Controller
         if (request()->session()->get('business.enable_purchase_status') != 1) {
             $default_purchase_status = 'received';
         }
-        // dd(request()->session()->get('business.enable_purchase_status'));
         $types = [];
         if (auth()->user()->can('supplier.create')) {
             $types['supplier'] = __('report.supplier');

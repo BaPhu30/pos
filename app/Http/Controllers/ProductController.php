@@ -385,7 +385,6 @@ class ProductController extends Controller
      */
     public function create()
     {
-        // dd(session('business'));
 
         if (!auth()->user()->can('product.create')) {
             abort(403, 'Unauthorized action.');
@@ -446,7 +445,7 @@ class ProductController extends Controller
 
         $common_settings = session()->get('business.common_settings');
         $warranties = Warranty::forDropdown($business_id);
-        // dd($business_locations);
+        
         //product screen view from module
         $pos_module_data = $this->moduleUtil->getModuleData('get_product_screen_top_view');
         return view('product.create')

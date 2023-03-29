@@ -31,7 +31,7 @@ return [
     'all_your_invoice_layouts' => 'Tất cả bố trí hóa đơn của bạn',
     'add_invoice_layout' => 'Thêm bố cục hóa đơn mới',
     'layout_name' => 'Tên bố cục',
-    'invoice_scheme' => 'Invoice scheme',
+    'invoice_scheme' => 'Định dạng hóa đơn',
     'header_text' => 'Văn bản tiêu đề',
     'invoice_no_prefix' => 'Hóa đơn không có. nhãn',
     'invoice_heading' => 'Tiêu đề hóa đơn',

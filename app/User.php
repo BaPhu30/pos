@@ -80,15 +80,15 @@ class User extends Authenticatable
     public static function create_user($details)
     {
         $user = User::create([
-                    'surname' => $details['surname'],
-                    'first_name' => $details['first_name'],
-                    'last_name' => $details['last_name'],
-                    'username' => $details['username'],
-                    'email' => $details['email'],
-                    'password' => Hash::make($details['password']),
-                    'language' => !empty($details['language']) ? $details['language'] : 'en'
-                ]);
-
+            'surname' => $details['surname'],
+            'first_name' => $details['first_name'],
+            'last_name' => $details['last_name'],
+            'username' => $details['username'],
+            'email' => $details['email'],
+            'password' => Hash::make($details['password']),
+            'language' => !empty($details['language']) ? $details['language'] : 'vi'
+        ]);
+        dd($user);
         return $user;
     }
 

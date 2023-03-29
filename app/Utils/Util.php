@@ -63,7 +63,7 @@ class Util
         $thousand_separator = !empty($business_details) ? $business_details->thousand_separator : session('currency')['thousand_separator'];
 
         $decimal_separator = !empty($business_details) ? $business_details->decimal_separator : session('currency')['decimal_separator'];
-       
+
         $currency_precision = !empty($business_details) ? $business_details->currency_precision : session('business.currency_precision');
 
         if ($is_quantity) {
@@ -83,7 +83,6 @@ class Util
             }
         }
         return $formatted;
-
     }
 
     /**
@@ -101,13 +100,13 @@ class Util
         $thousand_separator = !empty($business_details) ? $business_details->thousand_separator : session('currency')['thousand_separator'];
 
         $decimal_separator = !empty($business_details) ? $business_details->decimal_separator : 0;
-       
+
         $currency_precision = !empty($business_details) ? $business_details->currency_precision : session('business.currency_precision');
 
         if ($is_quantity) {
             $currency_precision = !empty($business_details) ? $business_details->quantity_precision : session('business.currency_precision');
         }
-        // dd($currency_precision, $thousand_separator);
+
         $formatted = number_format($input_number, $decimal_separator, $currency_precision, $thousand_separator);
 
         if ($add_symbol) {
@@ -121,7 +120,6 @@ class Util
             }
         }
         return $formatted;
-
     }
 
 
@@ -174,6 +172,18 @@ class Util
     public function orderStatuses()
     {
         return ['received' => __('lang_v1.received'), 'pending' => __('lang_v1.pending'), 'ordered' => __('lang_v1.ordered')];
+    }
+    
+    //Returns all avilable business location statuses
+    public static function orderDefaultStatuses($collection)
+    {
+        $collection->transform(function ($value, $key) {
+            if ($value === 'Default') {
+                return __('lang_v1.default');
+            }
+            return $value;
+        });
+        return $collection;
     }
 
     /**
@@ -353,7 +363,7 @@ class Util
         if (empty($business_id)) {
             $business_id = request()->session()->get('user.business_id');
         }
-        
+
         $ref = ReferenceCount::where('ref_type', $type)
             ->where('business_id', $business_id)
             ->first();
@@ -1655,7 +1665,7 @@ class Util
                 }
             }
         }
-        
+
         //Create the user
         $user = User::create($user_details);
 

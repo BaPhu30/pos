@@ -469,7 +469,7 @@ class SellPosController extends Controller
 
                 //upload document
                 $input['document'] = $this->transactionUtil->uploadFile($request, 'sell_document', 'documents');
-                dd($business_id, $input, $invoice_total, $user_id);
+
                 $transaction = $this->transactionUtil->createSellTransaction($business_id, $input, $invoice_total, $user_id);
 
                 //Upload Shipping documents

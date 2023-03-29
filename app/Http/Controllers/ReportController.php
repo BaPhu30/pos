@@ -362,7 +362,6 @@ class ReportController extends Controller
             $datatable =  Datatables::of($products)
                 ->editColumn('stock', function ($row) {
                     if ($row->enable_stock) {
-                        // dd($row->enable_stock, $row->stock);
                         $stock = $row->stock ? $row->stock : 0 ;
                         return  '<span class="current_stock" data-orig-value="' . $stock . '"> ' . $this->transactionUtil->num_product($stock, false, null, true) . ' ' .  __("product.product") . '</span>' ;
                     } else {
@@ -2707,7 +2706,7 @@ class ReportController extends Controller
         if (!auth()->user()->can('report.stock_details')) {
             abort(403, 'Unauthorized action.');
         }
-        dd($request->ajax());
+
         $business_id = request()->session()->get('user.business_id');
 
         $variation_id = request()->get('variation_id', null);

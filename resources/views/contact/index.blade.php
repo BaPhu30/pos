@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', __('lang_v1.'.$type.'s'))
+@section('title', __( 'contact.contacts' ))
 @php
     $api_key = env('GOOGLE_MAP_API_KEY');
 @endphp
@@ -11,9 +11,7 @@
 @section('content')
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <h1> @lang('lang_v1.'.$type.'s')
-        <small>@lang( 'contact.manage_your_contact', ['contacts' =>  __('lang_v1.'.$type.'s') ])</small>
-    </h1>
+    <h1> @lang('contact.customer')</h1>
 </section>
 
 <!-- Main content -->
@@ -64,13 +62,13 @@
             </label>
         </div>
     </div>
-    @if($type == 'customer')
-        <div class="col-md-3">
-            <div class="form-group">
-                <label for="has_no_sell_from">@lang('lang_v1.has_no_sell_from'):</label>
-                {!! Form::select('has_no_sell_from', ['one_month' => __('lang_v1.one_month'), 'three_months' => __('lang_v1.three_months'), 'six_months' => __('lang_v1.six_months'), 'one_year' => __('lang_v1.one_year')], null, ['class' => 'form-control', 'id' => 'has_no_sell_from', 'placeholder' => __('messages.please_select')]); !!}
-            </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="has_no_sell_from">@lang('lang_v1.has_no_sell_from'):</label>
+            {!! Form::select('has_no_sell_from', ['one_month' => __('lang_v1.one_month'), 'three_months' => __('lang_v1.three_months'), 'six_months' => __('lang_v1.six_months'), 'one_year' => __('lang_v1.one_year')], null, ['class' => 'form-control', 'id' => 'has_no_sell_from', 'placeholder' => __('messages.please_select')]); !!}
         </div>
+    </div>
+    @if($type == 'customer')
 
         <div class="col-md-3">
             <div class="form-group">

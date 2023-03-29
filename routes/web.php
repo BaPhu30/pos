@@ -235,16 +235,19 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('/reports/get-stock-value', 'ReportController@getStockValue');
     
     Route::get('business-location/activate-deactivate/{location_id}', 'BusinessLocationController@activateDeactivateLocation');
-
+    
     //Business Location Settings...
     Route::prefix('business-location/{location_id}')->name('location.')->group(function () {
         Route::get('settings', 'LocationSettingsController@index')->name('settings');
         Route::post('settings', 'LocationSettingsController@updateSettings')->name('settings_update');
     });
-
+    
     //Business Locations...
     Route::post('business-location/check-location-id', 'BusinessLocationController@checkLocationId');
     Route::resource('business-location', 'BusinessLocationController');
+    
+
+
 
     //Invoice layouts..
     Route::resource('invoice-layouts', 'InvoiceLayoutController');

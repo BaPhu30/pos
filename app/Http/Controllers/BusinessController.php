@@ -120,7 +120,7 @@ class BusinessController extends Controller
         if (!config('constants.allow_registration')) {
             return redirect('/');
         }
-        
+
         try {
             $validator = $request->validate(
                 [
@@ -163,17 +163,15 @@ class BusinessController extends Controller
             );
 
             DB::beginTransaction();
-
             //Create owner.
             $owner_details = $request->only(['surname', 'first_name', 'last_name', 'username', 'email', 'password', 'language']);
-
+            
             $owner_details['language'] = empty($owner_details['language']) ? config('app.locale') : $owner_details['language'];
-
             $user = User::create_user($owner_details);
-
+            
             $business_details = $request->only(['name', 'start_date', 'currency_id', 'time_zone']);
             $business_details['fy_start_month'] = 1;
-
+            
             $business_location = $request->only(['name', 'country', 'state', 'city', 'zip_code', 'landmark', 'website', 'mobile', 'alternate_number']);
             
             //Create the business
@@ -192,14 +190,14 @@ class BusinessController extends Controller
             $business_details['enabled_modules'] = ['purchases','add_sale','pos_sale','stock_transfers','stock_adjustment','expenses'];
             
             $business = $this->businessUtil->createNewBusiness($business_details);
-
+            
             //Update user with business id
             $user->business_id = $business->id;
             $user->save();
-
+            
             $this->businessUtil->newBusinessDefaultResources($business->id, $user->id);
+            
             $new_location = $this->businessUtil->addLocation($business->id, $business_location);
-
             //create new permission with the new location
             Permission::create(['name' => 'location.' . $new_location->id ]);
 

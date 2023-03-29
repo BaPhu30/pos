@@ -368,8 +368,6 @@ class OpeningStockController extends Controller
                                 $this->productUtil->adjustStockOverSelling($transaction);
                             }
                         }
-                        // dd(array_key_exists($location_id, $locations), !empty($edit_purchase_lines), (count($delete_transactions) > 0), !empty($new_purchase_lines));
-
                     }
                 }
 

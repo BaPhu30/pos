@@ -25,28 +25,66 @@ class AdminSidebarMenu
             $enabled_modules = !empty(session('business.enabled_modules')) ? session('business.enabled_modules') : [];
             $common_settings = !empty(session('business.common_settings')) ? session('business.common_settings') : [];
             $pos_settings = !empty(session('business.pos_settings')) ? json_decode(session('business.pos_settings'), true) : [];
-            
+
             $is_admin = auth()->user()->hasRole('Admin#' . session('business.id')) ? true : false;
             //Home
             $menu->url(action('HomeController@index'), __('home.home'), ['icon' => 'fa fas fa-tachometer-alt', 'active' => request()->segment(1) == 'home'])->order(5);
+            
+            //Business Location dropdown
+            if (auth()->user()->can('business_settings.access')) {
+                $menu->dropdown(
+                    __('business.business_location'),
+                    function ($sub) {
+                        if (auth()->user()->can('business_location.index')) {
+                            $sub->url(
+                                action('BusinessLocationController@index'),
+                                __('business.list_business_locations'),
+                                ['icon' => 'fa fas fa-briefcase', 'active' => request()->segment(1) == 'business-location' && request()->segment(2) == null]
+                            );
+                        }
+                        if (auth()->user()->can('business_location.create')) {
+                            $sub->url(
+                                action('BusinessLocationController@create'),
+                                __('business.add_business_locations'),
+                                ['icon' => 'fa fas fa-user', 'active' => request()->segment(1) == 'business-location' && request()->segment(2) == 'create']
+                            );
+                        }
+                    },
+                    ['icon' => 'fa fas fa-home']
+                )->order(10);
+            }
 
             //User management dropdown
             if (auth()->user()->can('user.view') || auth()->user()->can('user.create') || auth()->user()->can('roles.view')) {
                 $menu->dropdown(
                     __('user.user_management'),
                     function ($sub) {
-                        if (auth()->user()->can('user.view')) {
-                            $sub->url(
-                                action('ManageUserController@index'),
-                                __('user.users'),
-                                ['icon' => 'fa fas fa-user', 'active' => request()->segment(1) == 'users']
-                            );
-                        }
                         if (auth()->user()->can('roles.view')) {
                             $sub->url(
                                 action('RoleController@index'),
                                 __('user.roles'),
-                                ['icon' => 'fa fas fa-briefcase', 'active' => request()->segment(1) == 'roles']
+                                ['icon' => 'fa fas fa-briefcase', 'active' => request()->segment(1) == 'roles' && request()->segment(2) == null]
+                            );
+                        }
+                        if (auth()->user()->can('roles.create')) {
+                            $sub->url(
+                                action('RoleController@create'),
+                                __('user.add_roles'),
+                                ['icon' => 'fa fas fa-briefcase', 'active' => request()->segment(1) == 'roles' && request()->segment(2) == 'create']
+                            );
+                        }
+                        if (auth()->user()->can('user.view')) {
+                            $sub->url(
+                                action('ManageUserController@index'),
+                                __('user.users'),
+                                ['icon' => 'fa fas fa-user', 'active' => request()->segment(1) == 'users' && request()->segment(2) == null]
+                            );
+                        }
+                        if (auth()->user()->can('user.create')) {
+                            $sub->url(
+                                action('ManageUserController@create'),
+                                __('user.add_users'),
+                                ['icon' => 'fa fas fa-user', 'active' => request()->segment(1) == 'users' && request()->segment(2) == 'create']
                             );
                         }
                         if (auth()->user()->can('user.create')) {
@@ -68,15 +106,15 @@ class AdminSidebarMenu
                     function ($sub) {
                         if (auth()->user()->can('supplier.view') || auth()->user()->can('supplier.view_own')) {
                             $sub->url(
-                                action('ContactController@index', ['type' => 'supplier']),
-                                __('report.supplier'),
+                                action('ContactController@index'),
+                                __('contact.customer'),
                                 ['icon' => 'fa fas fa-star', 'active' => request()->input('type') == 'supplier']
                             );
                         }
                         if (auth()->user()->can('customer.view') || auth()->user()->can('customer.view_own')) {
                             $sub->url(
-                                action('ContactController@index', ['type' => 'customer']),
-                                __('report.customer'),
+                                action('ContactController@create'),
+                                __('contact.add_customer'),
                                 ['icon' => 'fa fas fa-star', 'active' => request()->input('type') == 'customer']
                             );
                             $sub->url(
@@ -268,14 +306,13 @@ class AdminSidebarMenu
                     ['icon' => 'fa fas fa-arrow-circle-up', 'id' => 'tour_step7']
                 )->order(30);
             }
-            
+
             //Buyer Sale Product Dropdown
             if (in_array('purchases', $enabled_modules) && (auth()->user()->can('buysell.view') || auth()->user()->can('buysell.create') || auth()->user()->can('buysell.update')) && ($is_admin || auth()->user()->hasAnyPermission(['buysell.view', 'buysell.create', 'direct_sell.access', 'view_own_sell_only', 'view_commission_agent_sell', 'access_shipping', 'access_own_shipping', 'access_commission_agent_shipping', 'access_sell_return', 'direct_sell.view', 'direct_sell.update', 'access_own_sell_return']))) {
                 $menu->dropdown(
                     __('lang_v1.buy_sell_product'),
                     function ($sub) use ($common_settings) {
 
-                        // dd(['icon' => 'fa fas fa-arrow-circle-down', 'id' => 'tour_step6']);die;
                         if (!empty($common_settings['enable_purchase_requisition']) && (auth()->user()->can('purchase_requisition.view_all') || auth()->user()->can('purchase_requisition.view_own'))) {
                             $sub->url(
                                 action('PurchaseRequisitionController@index'),
@@ -291,7 +328,7 @@ class AdminSidebarMenu
                         //         ['icon' => 'fa fas fa-list', 'active' => request()->segment(1) == 'purchase-order']
                         //     );
                         // }
-                        // dd(auth()->user()->can('view_own_purchase'));
+
                         if (auth()->user()->can('buysell.view') || auth()->user()->can('view_own_purchase')) {
                             $sub->url(
                                 action('BuySellController@index'),
@@ -762,11 +799,6 @@ class AdminSidebarMenu
                                 action('BusinessController@getBusinessSettings'),
                                 __('business.business_settings'),
                                 ['icon' => 'fa fas fa-cogs', 'active' => request()->segment(1) == 'business', 'id' => "tour_step2"]
-                            );
-                            $sub->url(
-                                action('BusinessLocationController@index'),
-                                __('business.business_locations'),
-                                ['icon' => 'fa fas fa-map-marker', 'active' => request()->segment(1) == 'business-location']
                             );
                         }
                         if (auth()->user()->can('invoice_settings.access')) {

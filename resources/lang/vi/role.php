@@ -13,15 +13,15 @@ return [
 
     'add_role' => 'Thêm vai trò', 
     'edit_role' => 'Chỉnh sửa vai trò', 
-    'user' => 'Người dùng', 
+    'user' => 'Nhân viên', 
     'supplier' => 'Nhà cung cấp', 
     'customer' => 'Khách hàng', 
     'purchase' => 'Điều chỉnh mua & bán cổ phiếu', 
     'report' => 'Bài báo cáo', 
-    'user.view' => 'Xem người dùng', 
-    'user.create' => 'Thêm người dùng', 
-    'user.update' => 'Người dùng biên tập', 
-    'user.delete' => 'Xóa người dùng', 
+    'user.view' => 'Xem nhân viên', 
+    'user.create' => 'Thêm nhân viên', 
+    'user.update' => 'Nhân viên biên tập', 
+    'user.delete' => 'Xóa nhân viên', 
     'supplier.view' => 'Xem nhà cung cấp', 
     'supplier.create' => 'Thêm nhà cung cấp', 
     'supplier.update' => 'Chỉnh sửa nhà cung cấp', 
@@ -84,4 +84,7 @@ return [
     'manage_roles' => 'Quản lý vai trò',
     'all_roles' => 'Tất cả vai trò',
     'action' => 'Hoạt động',
+    'permissions' => 'Quyền hạn',
+    'permissions_hekp' => 'Lựa chọn những quyền hạn phù hợp với vai trò nhân viên',
+
 ];

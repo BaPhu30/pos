@@ -85,7 +85,7 @@ class ContactController extends Controller
         if ($type == 'customer') {
             $customer_groups = CustomerGroup::forDropdown($business_id);
         }
-        // dd($type);
+
         return view('contact.index')
             ->with(compact('type', 'reward_enabled', 'customer_groups', 'users'));
     }
